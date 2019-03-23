@@ -5,6 +5,11 @@ from hdfs import InsecureClient
 
 
 
+
+HDFS_URL = 'http://localhost:50070'
+HDFS_USERNAME = 'jack'
+
+
 def save_img(img_dir):
     BULK_IMG_FN = "bulk_img.tiff"
     INDEX_FN = "index.txt"
@@ -38,7 +43,7 @@ def save_img(img_dir):
 
     # Upload the bulk image up to HDFS
     s_upload = time.time()
-    client = InsecureClient('http://localhost:50070', user='jack')
+    client = InsecureClient(HDFS_URL, user=HDFS_USERNAME)
     client.upload('./bulk_img.tiff', os.path.join(img_dir, 'bulk_img.tiff'), overwrite=True)
     e_uplaod = time.time()
     print("Uploading images takes {} s".format(e_uplaod - s_upload))
@@ -53,12 +58,16 @@ def read_img(img_dir, img_fn):
     try:
         start_index = int(file_index_list[filename_list.index(img_fn)])
         end_start = int(file_index_list[filename_list.index(img_fn) + 1])
-        with open(os.path.join(img_dir, 'bulk_img.tiff'), 'rb') as f:
-            img = f.read()[start_index: end_start]
-        
+        client = InsecureClient(HDFS_URL, user=HDFS_USERNAME)
+
+        with client.read(hdfs_path='./bulk_img.tiff') as reader:
+            bulk = reader.read()
+        img = bulk[start_index: end_start]
+
         return img
         
     except Exception as e:
+        print(e)
         print("No such a file name {}".format(img_fn))
 
 
