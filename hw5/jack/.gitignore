@@ -1,0 +1,10 @@
+### Dirs
+.venv/
+
+
+### Types
+*.csv
+
+
+### Files
+*notes*
