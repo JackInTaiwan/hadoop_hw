@@ -1,0 +1,7 @@
+### Dirs
+.venv/
+__pycache__/
+
+
+### Types
+*.txt

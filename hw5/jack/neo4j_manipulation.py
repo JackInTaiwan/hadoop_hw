@@ -1,7 +1,6 @@
 import pandas as pd
 from argparse import ArgumentParser
 from neo4j import GraphDatabase
-from neo4j import Node
 from timestamp import Timestamp
 
 
