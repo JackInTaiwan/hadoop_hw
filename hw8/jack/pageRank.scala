@@ -28,7 +28,7 @@ object PageRank {
 
     val ranks = 
         graph
-        .pageRank( 0.01 )
+        .pageRank( 0.0001 )
         .vertices
 
     val fullMap = 
